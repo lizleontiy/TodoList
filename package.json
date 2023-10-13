@@ -1,0 +1,26 @@
+{
+  "name": "todo-list",
+  "license": "MIT",
+  "private": true,
+  "author": "Yelyzaveta Leontiy",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
+  },
+  "description": "Todo list with MVC pattern.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lizleontiy/todo-list.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lizleontiy/todo-list/issues"
+  },
+  "homepage": "https://github.com/lizleontiy/todo-list#readme"
+}
