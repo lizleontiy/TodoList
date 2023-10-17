@@ -1,4 +1,5 @@
-import { IFormView } from './../types'
+import { createElement } from '@/utils/createElement'
+import { IFormView, ITodoItem } from '@/types'
 
 export class FormView implements IFormView {
   root: HTMLDivElement
@@ -7,8 +8,8 @@ export class FormView implements IFormView {
 
   constructor(rootId: string) {
     this.root = document.querySelector(rootId)! as HTMLDivElement
-    this.input = this.createElement('input', 'input')! as HTMLInputElement
-    this.submitButton = this.createElement('button', 'input', 'Add')! as HTMLButtonElement
+    this.input = createElement('input', 'input')! as HTMLInputElement
+    this.submitButton = createElement('button', 'input', 'Add')! as HTMLButtonElement
   }
 
   init() {
@@ -19,15 +20,37 @@ export class FormView implements IFormView {
     this.disableSubmitButton()
   }
 
-  createElement(tag: string, className?: string | string[], text?: string) {
-    const element = document.createElement(tag)
-    if (className) {
-      element.classList.add(...className)
+  inputListener() {
+    this.input.addEventListener('input', (e) => {
+      this.handleSubmitButtonActivity(e as InputEvent)
+    })
+  }
+
+  submitListener(callback: (data: ITodoItem) => void) {
+    this.submitButton.addEventListener('click', () => {
+      const todoItem = {
+        title: this.input.value,
+        done: 0,
+        id: `id${Math.random().toString(16).slice(2)}`,
+        createdAt: new Date().valueOf(),
+      }
+      callback(todoItem)
+      this.clearInput()
+    })
+  }
+
+  handleSubmitButtonActivity(e: InputEvent) {
+    const target = e.target as HTMLInputElement
+    if (target.value.length > 0) {
+      this.enableSubmitButton()
+    } else {
+      this.disableSubmitButton()
     }
-    if (text) {
-      element.textContent = text
-    }
-    return element
+  }
+
+  clearInput() {
+    this.input.value = ''
+    this.disableSubmitButton()
   }
 
   disableSubmitButton() {
