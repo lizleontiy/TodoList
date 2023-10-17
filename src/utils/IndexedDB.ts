@@ -19,6 +19,9 @@ export class IndexedDB {
   }
 
   open() {
+    if (this.db) {
+      return this.db
+    }
     const indexedDBVal = window.indexedDB
     const openedDB = indexedDBVal.open(this.dbName, this.dbVersion)
     return new Promise((
@@ -29,7 +32,7 @@ export class IndexedDB {
         console.log('onupgradeneeded')
         this.db = openedDB.result
         const store = this.db.createObjectStore(this.schemaName, { keyPath: 'id' })
-        store.createIndex('is_done', 'done', { unique: false })
+        store.createIndex('is_done', 'done', { unique: true })
       }
       openedDB.onsuccess = () => {
         console.log('onsuccess')
@@ -56,7 +59,7 @@ export class IndexedDB {
     if (!store) {
       return
     }
-    const request = await store.add(data)
+    const request = store.add(data)
     request.onerror = function(event) {
       if (request.error!.name === 'ConstraintError') {
         console.error('Item with the same id already exists')
@@ -112,7 +115,6 @@ export class IndexedDB {
   private closeDB(transaction: IDBTransaction) {
     transaction.oncomplete = function() {
       this.db.close()
-      console.log('closed')
     }
   }
 }
