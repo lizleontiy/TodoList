@@ -19,9 +19,6 @@ export class IndexedDB {
   }
 
   open() {
-    if (this.db) {
-      return this.db
-    }
     const indexedDBVal = window.indexedDB
     const openedDB = indexedDBVal.open(this.dbName, this.dbVersion)
     return new Promise((

@@ -1,5 +1,5 @@
-import { FormView } from '@/form/view'
+import { TodoView } from '@/view'
 import { TodoController } from '@/controller'
 import { TodoModel } from '@/model'
 
-new TodoController(new FormView('#app'), new TodoModel())
+new TodoController(new TodoView('#app'), new TodoModel())
