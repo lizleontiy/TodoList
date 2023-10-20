@@ -8,7 +8,6 @@ export class TodoModel implements ITodoModel {
   constructor() {
     this.indexedDB = new IndexedDB()
     this.todoList = [] as ITodoItem[]
-    this.init()
   }
 
   async add(data: ITodoItem) {
@@ -33,7 +32,10 @@ export class TodoModel implements ITodoModel {
     })
   }
 
-  async init() {
-
+  async deleteTodoItem(e: Event) {
+    const element = e.target as HTMLInputElement
+    const index: number = this.todoList!.findIndex(item => item.id === element.value)
+    this.todoList.splice(index, 1)
+    await this.indexedDB.delete(element.value)
   }
 }

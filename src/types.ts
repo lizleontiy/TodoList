@@ -22,8 +22,10 @@ export interface IListView {
   root: HTMLDivElement,
   wrapper: HTMLDivElement,
   onChangeEvent: (e: Event) => void,
+  onDeleteEvent: (e: Event) => void,
   init: () => void,
   setOnchangeEvent: (handler: (e: Event) => void) => void,
+  setOndeleteEvent: (handler: (e: Event) => void) => void,
   generateTodoItem: (data: ITodoItem[]) => void,
 }
 
@@ -38,7 +40,7 @@ export interface ITodoModel {
   add: (data: ITodoItem) => void,
   get: () => void,
   changeCheckboxStatus: (e: Event) => void,
-  init: () => void,
+  deleteTodoItem: (e: Event) => void,
 }
 
 export interface ITodoController {
@@ -47,4 +49,5 @@ export interface ITodoController {
   getDataOnLoad: () => void,
   addData: (data: ITodoItem) => void,
   checkboxEventHandler: (e: Event) => void,
+  updateList: () => void,
 }
