@@ -1,3 +1,10 @@
 label {
   display: block;
 }
+
+.delete-btn {
+  margin-left: 10px;
+  padding: 2px;
+  line-height: .5;
+  cursor: pointer;
+}
