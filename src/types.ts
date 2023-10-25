@@ -5,6 +5,7 @@ export interface ITodoItem {
   done: number,
   id: string,
   createdAt: number,
+  order: number
 }
 export interface IFormView {
   root: HTMLDivElement,
@@ -26,6 +27,7 @@ export interface IListView {
   init: () => void,
   setOnchangeEvent: (handler: (e: Event) => void) => void,
   setOndeleteEvent: (handler: (e: Event) => void) => void,
+  setOnChangeOrderEvent: (handler: (oldIndex: number, newIndex: number) => void) => void,
   generateTodoItem: (data: ITodoItem[]) => void,
 }
 
@@ -41,6 +43,7 @@ export interface ITodoModel {
   get: () => void,
   changeCheckboxStatus: (e: Event) => void,
   deleteTodoItem: (e: Event) => void,
+  updateTodoListOrder: (oldIndex: number, newIndex: number) => void,
 }
 
 export interface ITodoController {
@@ -50,4 +53,12 @@ export interface ITodoController {
   addData: (data: ITodoItem) => void,
   checkboxEventHandler: (e: Event) => void,
   updateList: () => void,
+  updateOrder: (oldIndex: number, newIndex: number) => void,
+}
+
+export interface IDragAndDropHandlers {
+  dragstart: (e: DragEvent) => void,
+  dragover: (e: DragEvent) => void,
+  dragleave: () => void,
+  drop: (e: DragEvent) => void,
 }

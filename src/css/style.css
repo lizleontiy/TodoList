@@ -8,3 +8,7 @@ label {
   line-height: .5;
   cursor: pointer;
 }
+
+.label-wrapper {
+  margin-bottom: 5px;
+}

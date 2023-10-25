@@ -33,6 +33,7 @@ export class FormView implements IFormView {
         done: 0,
         id: `id${Math.random().toString(16).slice(2)}`,
         createdAt: new Date().valueOf(),
+        order: 0,
       }
       callback(todoItem)
       this.clearInput()
