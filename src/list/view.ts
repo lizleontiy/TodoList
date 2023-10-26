@@ -77,6 +77,7 @@ export class ListView implements IListView {
   }
 
   addDragAndDropListeners() {
+    const TODO_ITEM_OFFSET = '5px'
     let elDrag: HTMLDivElement
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this
@@ -87,21 +88,18 @@ export class ListView implements IListView {
       },
       dragover(event: DragEvent) {
         event.preventDefault()
-        const el = this as unknown as HTMLDivElement
-        el.style.marginBottom = elDrag!.clientHeight + 'px'
+        const draoverElement = this as unknown as HTMLDivElement
+        draoverElement.style.marginBottom = `${elDrag!.clientHeight}px`
       },
       dragleave() {
-        const el = this as unknown as HTMLDivElement
-        el.style.marginBottom = '5px'
+        const dragleaveElement = this as unknown as HTMLDivElement
+        dragleaveElement.style.marginBottom = TODO_ITEM_OFFSET
       },
       drop() {
-        const el = this as unknown as HTMLDivElement
-        const index: number = Number(el.dataset.index)
-        el.style.marginBottom = '5px'
-        if (!elDrag) {
-          return
-        }
-        if (elDrag === this as unknown as HTMLDivElement) {
+        const dropOnElement = this as unknown as HTMLDivElement
+        const index: number = Number(dropOnElement.dataset.index)
+        dropOnElement.style.marginBottom = TODO_ITEM_OFFSET
+        if (!elDrag || elDrag === dropOnElement) {
           return
         }
         self.wrapper.insertBefore(
@@ -121,11 +119,12 @@ export class ListView implements IListView {
       this.wrapper.addEventListener(eventName, (event: Event) => {
         const target = event.target as HTMLDivElement
         const dragndropEvent = eventName as keyof IDragAndDropHandlers
+        const dragEvent = event as DragEvent
         const elItem = target.closest('.label-wrapper')
         if (!elItem) {
           return
         }
-        events[dragndropEvent].call(elItem, event as DragEvent)
+        events[dragndropEvent].call(elItem, dragEvent)
       })
     })
   }
