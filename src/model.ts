@@ -2,12 +2,8 @@ import { IndexedDB } from '@/utils/IndexedDB'
 import { ITodoItem, ITodoModel } from '@/types'
 
 export class TodoModel implements ITodoModel {
-  indexedDB: IndexedDB
+  indexedDB: IndexedDB = new IndexedDB()
   todoList: ITodoItem[] = []
-
-  constructor() {
-    this.indexedDB = new IndexedDB()
-  }
 
   async add(data: ITodoItem) {
     const localData = { ...data }
