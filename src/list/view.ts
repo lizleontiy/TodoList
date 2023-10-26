@@ -37,25 +37,27 @@ export class ListView implements IListView {
       const label = this.createLabel()
       const checkbox = this.createCheckbox(id, done)
       const deleteBtn = this.createDeleteButton(id)
+      const draggable = this.createDraggableUIElement()
       const textContent = document.createTextNode(title)
       label.appendChild(checkbox)
       label.appendChild(textContent)
       label.appendChild(deleteBtn)
       labelWrapper.appendChild(label)
+      labelWrapper.appendChild(draggable)
       this.wrapper.appendChild(labelWrapper)
     })
   }
 
   createLabelWrapper(order: number) {
     const labelWrapper = createElement('div')! as HTMLDivElement
-    labelWrapper.classList.add('label-wrapper')
+    labelWrapper.classList.add('todo-list__item')
     labelWrapper.dataset.index = String(order)
+    labelWrapper.draggable = true
     return labelWrapper
   }
 
   createLabel() {
-    const label = createElement('label') as HTMLLabelElement
-    label.draggable = true
+    const label = createElement('label', 'todo-list__label') as HTMLLabelElement
     return label
   }
 
@@ -70,10 +72,16 @@ export class ListView implements IListView {
   }
 
   createDeleteButton(id: string) {
-    const deleteBtn = createElement('button', 'delete-btn', '×')! as HTMLButtonElement
+    const deleteBtn = createElement('button', 'todo-list__button', '×')! as HTMLButtonElement
     deleteBtn.value = id
     deleteBtn.onclick = this.onDeleteEvent
     return deleteBtn
+  }
+
+  createDraggableUIElement() {
+    const draggable = createElement('div')! as HTMLDivElement
+    draggable.classList.add('todo-list__draggable')
+    return draggable
   }
 
   addDragAndDropListeners() {
@@ -120,7 +128,7 @@ export class ListView implements IListView {
         const target = event.target as HTMLDivElement
         const dragndropEvent = eventName as keyof IDragAndDropHandlers
         const dragEvent = event as DragEvent
-        const elItem = target.closest('.label-wrapper')
+        const elItem = target.closest('.todo-list__item')
         if (!elItem) {
           return
         }

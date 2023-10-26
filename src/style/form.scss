@@ -1,0 +1,30 @@
+.form {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+
+  &__input {
+    width: calc(100% - 50px);
+    border: none;
+    background-color: #e5e5e5;
+    border-radius: 5px;
+    padding: 10px;
+    transition: .3s;
+    &:focus {
+      border-color: #4086ff;
+      background-color: #f0f0f0;
+    }
+  }
+
+  &__button {
+    background-color: #4086ff;
+    border: none;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-left: 10px;
+    &:disabled {
+      background-color: #e5e5e5;
+    }
+  }
+}

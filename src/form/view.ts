@@ -8,8 +8,9 @@ export class FormView implements IFormView {
 
   constructor(rootId: string) {
     this.root = document.querySelector(rootId)! as HTMLDivElement
-    this.input = createElement('input', 'input')! as HTMLInputElement
-    this.submitButton = createElement('button', 'input', 'Add')! as HTMLButtonElement
+    this.input = createElement('input', 'form__input')! as HTMLInputElement
+    this.input.placeholder = 'Write something you plan to do'
+    this.submitButton = createElement('button', 'form__button', 'Add')! as HTMLButtonElement
   }
 
   init() {
