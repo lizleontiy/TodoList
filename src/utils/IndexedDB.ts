@@ -29,7 +29,7 @@ export class IndexedDB {
         console.log('onupgradeneeded')
         this.db = openedDB.result
         const store = this.db.createObjectStore(this.schemaName, { keyPath: 'id' })
-        store.createIndex('is_done', 'done', { unique: true })
+        store.createIndex('is_done', 'done', { unique: false })
       }
       openedDB.onsuccess = () => {
         console.log('onsuccess')

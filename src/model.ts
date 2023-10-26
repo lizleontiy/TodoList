@@ -2,22 +2,19 @@ import { IndexedDB } from '@/utils/IndexedDB'
 import { ITodoItem, ITodoModel } from '@/types'
 
 export class TodoModel implements ITodoModel {
-  indexedDB: IndexedDB
-  todoList: ITodoItem[]
-
-  constructor() {
-    this.indexedDB = new IndexedDB()
-    this.todoList = [] as ITodoItem[]
-  }
+  indexedDB: IndexedDB = new IndexedDB()
+  todoList: ITodoItem[] = []
 
   async add(data: ITodoItem) {
-    this.todoList?.push(data)
-    this.indexedDB.add(data)
+    const localData = { ...data }
+    localData.order = this.todoList.length
+    this.todoList?.push(localData)
+    this.indexedDB.add(localData)
   }
 
   async get() {
     const todoList = await this.indexedDB.get() as ITodoItem[]
-    this.todoList = todoList.sort((x, y) => x.createdAt - y.createdAt)
+    this.todoList = todoList.sort((x, y) => x.order - y.order)
   }
 
   async changeCheckboxStatus(e: Event) {
@@ -29,6 +26,7 @@ export class TodoModel implements ITodoModel {
       done: this.todoList[index].done,
       id: this.todoList[index].id,
       createdAt: this.todoList[index].createdAt,
+      order: this.todoList[index].order,
     })
   }
 
@@ -37,5 +35,25 @@ export class TodoModel implements ITodoModel {
     const index: number = this.todoList!.findIndex(item => item.id === element.value)
     this.todoList.splice(index, 1)
     await this.indexedDB.delete(element.value)
+  }
+  async updateTodoListOrder(oldIndex: number, newIndex: number) {
+    console.log(oldIndex, newIndex)
+    let newIdx = newIndex
+    if (newIdx === 0) {
+      newIdx += 1
+    }
+    const draggableIndex: number = this.todoList.findIndex(el => el.order === oldIndex)
+    const deletedEl: ITodoItem = this.todoList.splice(draggableIndex, 1)[0]
+    this.todoList.splice(newIdx, 0, deletedEl)
+    this.todoList.forEach(async (item, i) => {
+      item.order = i
+      await this.indexedDB.update({
+        title: this.todoList[i].title,
+        done: this.todoList[i].done,
+        id: this.todoList[i].id,
+        createdAt: this.todoList[i].createdAt,
+        order: item.order,
+      })
+    })
   }
 }

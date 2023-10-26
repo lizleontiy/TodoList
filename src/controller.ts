@@ -11,6 +11,7 @@ export class TodoController implements ITodoController {
     this.view.list.init()
     this.view.list.setOnchangeEvent(this.checkboxEventHandler.bind(this))
     this.view.list.setOndeleteEvent(this.deleteBtnEventHandler.bind(this))
+    this.view.list.setOnChangeOrderEvent(this.updateOrder.bind(this))
     this.view.form.inputListener()
     this.getDataOnLoad()
     this.view.form.submitListener(this.addData.bind(this))
@@ -32,7 +33,7 @@ export class TodoController implements ITodoController {
     this.model.changeCheckboxStatus(e)
   }
 
-  async deleteBtnEventHandler(e: Event) {
+  deleteBtnEventHandler(e: Event) {
     this.model.deleteTodoItem(e)
     this.updateList()
   }
@@ -40,5 +41,9 @@ export class TodoController implements ITodoController {
   async updateList() {
     await this.model.get()
     this.view.list.generateTodoItem(this.model.todoList)
+  }
+
+  updateOrder(oldIndex: number, newIndex: number) {
+    this.model.updateTodoListOrder(oldIndex, newIndex)
   }
 }
