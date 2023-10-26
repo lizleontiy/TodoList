@@ -3,11 +3,10 @@ import { ITodoItem, ITodoModel } from '@/types'
 
 export class TodoModel implements ITodoModel {
   indexedDB: IndexedDB
-  todoList: ITodoItem[]
+  todoList: ITodoItem[] = []
 
   constructor() {
     this.indexedDB = new IndexedDB()
-    this.todoList = [] as ITodoItem[]
   }
 
   async add(data: ITodoItem) {

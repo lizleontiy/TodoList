@@ -4,16 +4,13 @@ import { ITodoItem, IListView, IDragAndDropHandlers } from '@/types'
 export class ListView implements IListView {
   root: HTMLDivElement
   wrapper: HTMLDivElement
-  onChangeEvent: (e: Event) => void
-  onDeleteEvent: (e: Event) => void
-  onChangeOrderEvent: (oldIndex: number, newIndex: number) => void
+  onChangeEvent: (e: Event) => void = () => {}
+  onDeleteEvent: (e: Event) => void = () => {}
+  onChangeOrderEvent: (oldIndex: number, newIndex: number) => void = () => {}
 
   constructor(rootId: string) {
     this.root = document.querySelector(rootId)! as HTMLDivElement
     this.wrapper = createElement('div', 'list-wrapper')! as HTMLDivElement
-    this.onChangeEvent = () => {}
-    this.onDeleteEvent = () => {}
-    this.onChangeOrderEvent = () => {}
     this.addDragAndDropListeners()
   }
 
