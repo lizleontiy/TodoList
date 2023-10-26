@@ -36,20 +36,10 @@ export class ListView implements IListView {
   generateTodoItem(data: ITodoItem[]) {
     this.wrapper.innerHTML = ''
     data.forEach(({ title, id, done, order }) => {
-      const label = document.createElement('label')
-      const checkbox = createElement('input')! as HTMLInputElement
-      const labelWrapper = createElement('div')! as HTMLDivElement
-      const deleteBtn = createElement('button', 'delete-btn', '×')! as HTMLButtonElement
-      label.draggable = true
-      deleteBtn.value = id
-      labelWrapper.classList.add('label-wrapper')
-      labelWrapper.dataset.index = String(order)
-      checkbox.type ='checkbox'
-      checkbox.id = id
-      checkbox.name = 'todo'
-      checkbox.onchange = this.onChangeEvent
-      deleteBtn.onclick = this.onDeleteEvent
-      checkbox.checked = Boolean(done)
+      const labelWrapper = this.createLabelWrapper(order)
+      const label = this.createLabel()
+      const checkbox = this.createCheckbox(id, done)
+      const deleteBtn = this.createDeleteButton(id)
       const textContent = document.createTextNode(title)
       label.appendChild(checkbox)
       label.appendChild(textContent)
@@ -57,6 +47,36 @@ export class ListView implements IListView {
       labelWrapper.appendChild(label)
       this.wrapper.appendChild(labelWrapper)
     })
+  }
+
+  createLabelWrapper(order: number) {
+    const labelWrapper = createElement('div')! as HTMLDivElement
+    labelWrapper.classList.add('label-wrapper')
+    labelWrapper.dataset.index = String(order)
+    return labelWrapper
+  }
+
+  createLabel() {
+    const label = createElement('label') as HTMLLabelElement
+    label.draggable = true
+    return label
+  }
+
+  createCheckbox(id: string, done: number) {
+    const checkbox = createElement('input')! as HTMLInputElement
+    checkbox.type ='checkbox'
+    checkbox.id = id
+    checkbox.name = 'todo'
+    checkbox.checked = Boolean(done)
+    checkbox.onchange = this.onChangeEvent
+    return checkbox
+  }
+
+  createDeleteButton(id: string) {
+    const deleteBtn = createElement('button', 'delete-btn', '×')! as HTMLButtonElement
+    deleteBtn.value = id
+    deleteBtn.onclick = this.onDeleteEvent
+    return deleteBtn
   }
 
   addDragAndDropListeners() {
@@ -98,15 +118,17 @@ export class ListView implements IListView {
         })
       },
     }
+
     const eventList = ['dragstart', 'dragover', 'dragleave', 'drop']
     eventList.forEach(eventName => {
       this.wrapper.addEventListener(eventName, (event: Event) => {
         const target = event.target as HTMLDivElement
+        const dragndropEvent = eventName as keyof IDragAndDropHandlers
         const elItem = target.closest('.label-wrapper')
         if (!elItem) {
           return
         }
-        events[eventName as keyof IDragAndDropHandlers].call(elItem, event as DragEvent)
+        events[dragndropEvent].call(elItem, event as DragEvent)
       })
     })
   }

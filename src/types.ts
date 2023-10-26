@@ -1,12 +1,10 @@
 import { IndexedDB } from '@/utils/IndexedDB'
 
-export interface ITodoItem {
-  title: string,
-  done: number,
-  id: string,
-  createdAt: number,
-  order: number
+export interface ITodoView {
+  form: IFormView,
+  list: IListView,
 }
+
 export interface IFormView {
   root: HTMLDivElement,
   input: HTMLInputElement,
@@ -29,11 +27,11 @@ export interface IListView {
   setOndeleteEvent: (handler: (e: Event) => void) => void,
   setOnChangeOrderEvent: (handler: (oldIndex: number, newIndex: number) => void) => void,
   generateTodoItem: (data: ITodoItem[]) => void,
-}
-
-export interface ITodoView {
-  form: IFormView,
-  list: IListView,
+  createLabelWrapper: (order: number) => HTMLDivElement,
+  createLabel: () => HTMLLabelElement,
+  createCheckbox: (id: string, done: number) => HTMLInputElement,
+  createDeleteButton: (id: string) => HTMLButtonElement,
+  addDragAndDropListeners: () => void,
 }
 
 export interface ITodoModel {
@@ -54,6 +52,14 @@ export interface ITodoController {
   checkboxEventHandler: (e: Event) => void,
   updateList: () => void,
   updateOrder: (oldIndex: number, newIndex: number) => void,
+}
+
+export interface ITodoItem {
+  title: string,
+  done: number,
+  id: string,
+  createdAt: number,
+  order: number
 }
 
 export interface IDragAndDropHandlers {
