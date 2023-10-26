@@ -6,8 +6,8 @@ export class TodoView implements ITodoView {
   form: IFormView
   list: IListView
 
-  constructor(rootId: string) {
-    this.form = new FormView(rootId)
-    this.list = new ListView(rootId)
+  constructor(formRoot: string, listRoot: string) {
+    this.form = new FormView(formRoot)
+    this.list = new ListView(listRoot)
   }
 }

@@ -31,6 +31,7 @@ export interface IListView {
   createLabel: () => HTMLLabelElement,
   createCheckbox: (id: string, done: number) => HTMLInputElement,
   createDeleteButton: (id: string) => HTMLButtonElement,
+  createDraggableUIElement: () => HTMLDivElement,
   addDragAndDropListeners: () => void,
 }
 

@@ -1,5 +1,5 @@
 import { TodoView } from '@/view'
 import { TodoController } from '@/controller'
 import { TodoModel } from '@/model'
-
-new TodoController(new TodoView('#app'), new TodoModel())
+import '@/style/index.scss'
+new TodoController(new TodoView('#form', '#list'), new TodoModel())
